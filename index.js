@@ -23,7 +23,7 @@ app.use('/api/auth', userRoutes);
 app.use('/api',logRoutes);
 app.use('/api',doctorRoute);
 app.use('/api',VitalRoute);
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
