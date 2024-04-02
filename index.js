@@ -1,40 +1,29 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const app = express();
-const User = require("./user");
+const express = require('express');
+const mongoose = require('mongoose');
+const userRoutes = require('./routes/userroutes');
+const logRoutes=require('./routes/logRoutes')
 
+const doctorRoute = require('./routes/doctorRoute');
+const VitalRoute= require('./routes/VitalRoute');
+const app = express();
+
+// Middleware
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
 // Connect to MongoDB
-mongoose.connect("mongodb+srv://pugalramyaa:pugal@menosense.rt7yrlq.mongodb.net/user", )
-.then(() => {
-  console.log("Connected to MongoDB");
+mongoose.connect('mongodb+srv://pugalramyaa:pugal@menosense.rt7yrlq.mongodb.net/user',).then(() => {
+  console.log('Connected to MongoDB');
+}).catch((error) => {
+  console.error('Error connecting to MongoDB:', error);
+});
 
-  // Define POST endpoint to add a user
-  app.post("/api/add_user", async (req, res) => {
-    try {
-      // Create a new user instance based on request body
-      const user = new User(req.body);
-      
-      // Save the user to the database
-      const savedUser = await user.save();
 
-      // Respond with the saved user data
-      res.status(200).json(savedUser);
-    } catch (error) {
-      // Handle any errors that occur during user creation or saving
-      res.status(400).json({ error: error.message });
-    }
-  });
-
-  // Start the server
-  app.listen(2000, () => {
-    console.log("Server is running on port 2000");
-  });
-})
-.catch((error) => {
-  // Handle MongoDB connection error
-  console.error("Error connecting to MongoDB:", error);
-  console.error("MongoDB connection error:", error.message);
+// Routes
+app.use('/api/auth', userRoutes);
+app.use('/api',logRoutes);
+app.use('/api',doctorRoute);
+app.use('/api',VitalRoute);
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
