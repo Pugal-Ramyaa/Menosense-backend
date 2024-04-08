@@ -5,6 +5,7 @@ const logRoutes=require('./routes/logRoutes')
 
 const doctorRoute = require('./routes/doctorRoute');
 const VitalRoute= require('./routes/VitalRoute');
+const predRoute = require('./routes/predRoute');
 const app = express();
 
 // Middleware
@@ -23,6 +24,7 @@ app.use('/api/auth', userRoutes);
 app.use('/api',logRoutes);
 app.use('/api',doctorRoute);
 app.use('/api',VitalRoute);
+app.use('/api',predRoute);
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
